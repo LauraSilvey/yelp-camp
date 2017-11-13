@@ -1,4 +1,4 @@
 # don't track these files
 
 .DS_Store
-node_modeules/
+node_modules/
