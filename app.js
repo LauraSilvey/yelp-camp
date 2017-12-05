@@ -12,28 +12,6 @@ app.set("view engine", "ejs");
 
 seedDB();
 
-// Campground.create(
-//   {
-//     name: "White Wolf Campground", 
-//     image: "http://www.parkcamper.com/Yosemite-National-Park/white-wolf-campground-yosemite.jpg",
-//     description: "Nestled above the Yosemite Valley.  Running water, but no showers.  Tent camping only."
-//   }, 
-//   function(err, campground){
-//        if(err){
-//         console.log(err);
-//        } else {
-//         console.log("newly created campground: ");
-//         console.log(campground);
-//        }
-// });
-
-// var campgrounds = [
-//     {name: "Morro Dunes RV Park", image: "http://images.goodsam.com/trailerlifedirectory/largefeatured/1000x/pho_100006986_06.jpg"},
-//     {name: "White Wolf Campground", image: "http://www.parkcamper.com/Yosemite-National-Park/white-wolf-campground-yosemite.jpg"},
-//     {name: "Manzanita Lake Campground", image: "http://www.parkcamper.com/LV/Manzanita-Lake-campground-Lassen-Volcanic-NP.jpg"},
-//   ]
-
-
 app.get("/", function(req, res){
   res.render("home");
 });  
@@ -44,7 +22,7 @@ app.get("/campgrounds", function(req, res){
     if(err){
       console.log(err);
     }else{
-      res.render("index", { campgrounds });
+      res.render("campgrounds/index", { campgrounds });
     }
   });  
 });
@@ -70,7 +48,7 @@ app.post("/campgrounds", function(req, res){
 });
 
 app.get("/campgrounds/new", function(req, res){
-  res.render("new");
+  res.render("campgrounds/new");
 });
 
 //Show
@@ -80,9 +58,23 @@ app.get("/campgrounds/:id", function(req, res){
       console.log(err);
     }else{
       console.log(foundCampground);
-      res.render("show", {campground: foundCampground});
+      res.render("campgrounds/show", {campground: foundCampground});
     }
   });
+});
+
+// ===============
+// Comments Routes
+// ===============
+
+app.get("/campgrounds/:id/comments/new", function(req, res){
+  Campground.findById(req.params.id, function(err, campground){
+    if(err){
+      console.log(err);
+    }else{
+      res.render("comments/new", { campground });
+    }
+  });  
 });
 
 app.listen(3000);
