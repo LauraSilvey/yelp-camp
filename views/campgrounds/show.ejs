@@ -19,16 +19,29 @@
         </div>
         <p> <%= campground.description %> </p>
       </div>
+      <div class="well">
+        <div class="text-right">
+          <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Leave a Review</a>
+        </div>
+        <hr>
+        <% campground.comments.forEach(function(comment){ %>
+          <div class="row">
+            <div class="col-md-12">
+              <strong><%= comment.author %></strong>
+              <span class="pull-right">10 days ago</span>
+              <p>
+                <%= comment.text %>
+              </p>
+            </div>
+
+          </div>
+
+        <% }) %>
+      </div>
       
       
-      <p>
-        <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
-      </p>
-      <% campground.comments.forEach(function(comment){ %>
-        <p>
-          <strong><%= comment.author %></strong> - <%= comment.text %>
-        </p>
-      <% }) %>
+
+
     </div>
 
     </div>
