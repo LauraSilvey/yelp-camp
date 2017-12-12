@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Campground = require("./models/campground");
-var Comment = require("./models/comment")
+var Comment = require("./models/comment");
 
 var data = [
   {
@@ -19,7 +19,7 @@ var data = [
     description: "Conveniently located near the northern entrance to Lassen National Park."
   }
   
-]
+];
 
 function seedDB(){
   //Remove all campgrounds
