@@ -101,11 +101,10 @@ function checkCampgroundOwnership(req, res, next) {
         res.redirect("back");
       } else {
         if (foundCampground.author.id.equals(req.user._id)){
-          res.render("campgrounds/edit", {campground: foundCampground});
+          next();
         } else {
           res.redirect("back");
-        }
-        
+        } 
       }
     });
   } else {

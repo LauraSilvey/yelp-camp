@@ -18,7 +18,6 @@ var data = [
     image: "http://www.parkcamper.com/LV/Manzanita-Lake-campground-Lassen-Volcanic-NP.jpg",
     description: "Conveniently located near the northern entrance to Lassen National Park."
   }
-  
 ];
 
 function seedDB(){
