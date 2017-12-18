@@ -4,6 +4,7 @@ var express        = require("express"),
     mongoose       = require("mongoose"),
     passport       = require("passport"),
     methodOverride = require("method-override"),
+    flash          = require("connect-flash"),
     Campground     = require("./models/campground"),
     Comment        = require("./models/comment"),
     User           = require("./models/user"),
@@ -12,8 +13,8 @@ var express        = require("express"),
 
 //Requiring Routes
 var campgroundRoutes = require("./routes/campgrounds"),
-    commentRoutes   = require("./routes/comments"),
-    indexRoutes       = require("./routes/index");
+    commentRoutes    = require("./routes/comments"),
+    indexRoutes      = require("./routes/index");
 
 mongoose.connect("mongodb://localhost/yelp_camp", {useMongoClient: true});
 mongoose.Promise = global.Promise;
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 // seedDB();
 
@@ -38,6 +40,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 
