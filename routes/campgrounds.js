@@ -17,6 +17,7 @@ router.get("/", function(req, res){
 
 //Create  - add a new campgound to db
 router.post("/", middleware.isLoggedIn, function(req, res){
+  req.body.description = req.sanitize(req.body.description);
   var name = req.body.name;
   var image = req.body.image;
   var description = req.body.description;
@@ -68,8 +69,8 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
 
 //Update
 router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
-  req.body.sanitized = req.sanitize(req.body.campground);
-  Campground.findByIdAndUpdate(req.params.id, req.body.sanitized, function(err, updatedCampground){
+  req.body.campground.description = req.sanitize(req.body.campground.description);
+  Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
     if (err) {
       res.redirect("/campgrounds");
     } else {
