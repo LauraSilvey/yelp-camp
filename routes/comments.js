@@ -17,7 +17,6 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 
 //Comments create
 router.post("/", middleware.isLoggedIn, function(req, res){
-  //lookup campground using ID
   Campground.findById(req.params.id, function(err, campground){
     if (err) {
       console.log(err);
@@ -61,7 +60,8 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
 
 //Update
 router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
-  Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+  req.body.sanitized = req.sanitize(req.body.comment);
+  Comment.findByIdAndUpdate(req.params.comment_id, req.body.sanitized, function(err, updatedComment){
     if (err) {
       res.redirect("/back");
     } else {

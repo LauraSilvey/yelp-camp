@@ -1,15 +1,16 @@
-var express        = require("express"),
-    LocalStrategy  = require("passport-local"),
-    bodyParser     = require("body-parser"),
-    mongoose       = require("mongoose"),
-    passport       = require("passport"),
-    methodOverride = require("method-override"),
-    flash          = require("connect-flash"),
-    Campground     = require("./models/campground"),
-    Comment        = require("./models/comment"),
-    User           = require("./models/user"),
-    seedDB         = require("./seeds"),
-    app            = express();
+var express          = require("express"),
+    LocalStrategy    = require("passport-local"),
+    bodyParser       = require("body-parser"),
+    expressSanitizer = require('express-sanitizer'),
+    mongoose         = require("mongoose"),
+    passport         = require("passport"),
+    methodOverride   = require("method-override"),
+    flash            = require("connect-flash"),
+    Campground       = require("./models/campground"),
+    Comment          = require("./models/comment"),
+    User             = require("./models/user"),
+    seedDB           = require("./seeds"),
+    app              = express();
 
 //Requiring Routes
 var campgroundRoutes = require("./routes/campgrounds"),
@@ -19,6 +20,7 @@ var campgroundRoutes = require("./routes/campgrounds"),
 mongoose.connect("mongodb://localhost/yelp_camp", {useMongoClient: true});
 mongoose.Promise = global.Promise;
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
