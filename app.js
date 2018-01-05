@@ -14,12 +14,6 @@ var express          = require("express"),
     seedDB           = require("./seeds"),
     app              = express();
 
-var store = new MongoDBStore(
-  {
-    uri: "mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject",
-    collection: "cookieSessions"
-  });
-
 // Catch errors
 store.on('error', function(error) {
   assert.ifError(error);
@@ -44,7 +38,12 @@ app.use(flash());
 // seedDB();
 
 //Passport Config
-app.use(require("express-session")({
+var store = new MongoDBStore(
+  {
+    uri: "mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject",
+    collection: "cookieSessions"
+  });
+app.use(session)({
   secret: "temp",
   cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
@@ -52,7 +51,7 @@ app.use(require("express-session")({
   store: store,
   resave: true,
   saveUninitialized: true,
-}));
+});
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
