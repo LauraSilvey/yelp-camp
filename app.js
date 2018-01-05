@@ -41,12 +41,12 @@ app.use(flash());
 var store = new MongoDBStore(
   {
     uri: "mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject",
-    collection: "cookieSessions"
+    collection: "myYelpSessions"
   });
-app.use(require("express-session")({
+app.use(session({
   secret: "temp",
   cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        maxAge: 86400000 // 24 hours
       },
   store: store,
   resave: true,
