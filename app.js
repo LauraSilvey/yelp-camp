@@ -43,7 +43,7 @@ var store = new MongoDBStore(
     uri: "mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject",
     collection: "cookieSessions"
   });
-app.use(session)({
+app.use(require("express-session")({
   secret: "temp",
   cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
@@ -51,7 +51,7 @@ app.use(session)({
   store: store,
   resave: true,
   saveUninitialized: true,
-});
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
