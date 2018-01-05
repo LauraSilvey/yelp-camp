@@ -4,6 +4,8 @@ var express          = require("express"),
     expressSanitizer = require('express-sanitizer'),
     mongoose         = require("mongoose"),
     passport         = require("passport"),
+    session          = require("express-session"),
+    MongoDBStore     = require("connect-mongod-session")(session),
     methodOverride   = require("method-override"),
     flash            = require("connect-flash"),
     Campground       = require("./models/campground"),
@@ -12,6 +14,18 @@ var express          = require("express"),
     seedDB           = require("./seeds"),
     app              = express();
 
+var store = new MongoDBStore(
+  {
+    uri: "mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject",
+    collection: "cookieSessions"
+  });
+
+// Catch errors
+store.on('error', function(error) {
+  assert.ifError(error);
+  assert.ok(false);
+});
+
 //Requiring Routes
 var campgroundRoutes = require("./routes/campgrounds"),
     commentRoutes    = require("./routes/comments"),
@@ -19,7 +33,6 @@ var campgroundRoutes = require("./routes/campgrounds"),
 
 // mongoose.connect("mongodb://localhost/yelp_camp", {useMongoClient: true});
 mongoose.connect("mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject", {useMongoClient: true});
-
 mongoose.Promise = global.Promise;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSanitizer());
@@ -33,8 +46,12 @@ app.use(flash());
 //Passport Config
 app.use(require("express-session")({
   secret: "temp",
-  resave: false,
-  saveUninitialized: false,
+  cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+      },
+  store: store,
+  resave: true,
+  saveUninitialized: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
