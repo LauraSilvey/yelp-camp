@@ -14,11 +14,6 @@ var express          = require("express"),
     seedDB           = require("./seeds"),
     app              = express();
 
-// Catch errors
-store.on('error', function(error) {
-  assert.ifError(error);
-  assert.ok(false);
-});
 
 //Requiring Routes
 var campgroundRoutes = require("./routes/campgrounds"),
