@@ -35,7 +35,7 @@ app.use(flash());
 //Passport Config
 var store = new MongoDBStore(
   {
-    uri: "mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject",
+    uri: process.env.DB_URI,
     collection: "myYelpSessions"
   });
 app.use(session({
