@@ -20,7 +20,7 @@ var express          = require("express"),
 var campgroundRoutes = require("./routes/campgrounds"),
     commentRoutes    = require("./routes/comments"),
     indexRoutes      = require("./routes/index");
-
+    
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 app.use(bodyParser.urlencoded({extended: true}));
@@ -35,7 +35,7 @@ app.use(flash());
 //Passport Config
 var store = new MongoDBStore(
   {
-    uri: process.env.URI,
+    uri: "mongodb://Laura:pw1234$@ds139067.mlab.com:39067/myyelpcampproject",
     collection: "myYelpSessions"
   });
 app.use(session({
