@@ -40,7 +40,7 @@ var store = new MongoDBStore(
   });
 
 app.use(session({
-  secret: "temp",
+  secret: process.env.SESSION_SECRET,
   cookie: {
         maxAge: 86400000 // 24 hours
       },
