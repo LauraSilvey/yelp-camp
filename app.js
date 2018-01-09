@@ -35,9 +35,10 @@ app.use(flash());
 //Passport Config
 var store = new MongoDBStore(
   {
-    uri: process.env.DB_URI,
+    uri: process.env.DATABASEURL,
     collection: "myYelpSessions"
   });
+
 app.use(session({
   secret: "temp",
   cookie: {
@@ -47,6 +48,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
 }));
+console.log("uri", store);
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
